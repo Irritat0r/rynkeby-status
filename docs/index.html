@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simon cyklar – Team Rynkeby 2025/26</title>
+  <meta name="description" content="Följ min resa mot Paris med Team Rynkeby och stöd Barncancerfonden." />
+  <meta property="og:title" content="Simon cyklar – Team Rynkeby" />
+  <meta property="og:description" content="Följ min resa mot Paris med Team Rynkeby och stöd Barncancerfonden." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://irritat0r.github.io/rynkeby-status/strava_km.png" />
+  <meta name="theme-color" content="#FEDD00" />
+  <style>
+    :root{
+      --yellow:#FEDD00;
+      --black:#000000;
+      --white:#ffffff;
+      --muted:#f6f6f6;
+      --content-max:980px;
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:#fff;color:#000;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;line-height:1.4}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--content-max);margin:0 auto;padding:24px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:18px 0}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:44px;height:44px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;font-weight:800}
+    .title{font-size:1.15rem;font-weight:800}
+    .sub{font-size:.95rem;opacity:.8}
+    .hero{background:var(--yellow);border-radius:var(--radius);padding:22px;margin:8px 0 20px}
+    .hero h1{margin:0 0 6px;font-size:1.6rem}
+    .hero p{margin:4px 0 0}
+    .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
+    @media(min-width:740px){.grid{grid-template-columns:1.3fr .7fr}}
+    .card{background:var(--white);border-radius:var(--radius);padding:18px;border:1px solid #eee}
+    .progress-card img{width:100%;height:auto;display:block;border-radius:14px;border:1px solid #eee;background:#fff}
+    .btns{display:grid;gap:10px}
+    .btn{
+      display:flex;align-items:center;justify-content:center;
+      padding:14px 16px;border-radius:999px;font-weight:700;border:2px solid var(--black);
+      background:var(--yellow);transition:.15s transform ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn--invert{background:var(--black);color:#fff;border-color:var(--black)}
+    .section h2{margin:6px 0 12px;font-size:1.2rem}
+    .sponsors{display:grid;grid-template-columns:1fr;gap:12px}
+    .sponsor{
+      background:var(--muted);border:1px dashed #bbb;border-radius:16px;padding:18px;text-align:center;
+      font-weight:700
+    }
+    @media(min-width:640px){.sponsors{grid-template-columns:repeat(3,1fr)}}
+    .toplist li{margin:6px 0;padding:10px 12px;border-radius:12px;background:#fafafa;border:1px solid #eee}
+    footer{margin:26px 0 10px;text-align:center;font-size:.9rem;opacity:.7}
+    .note{font-size:.85rem;opacity:.8;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🚴‍♂️</div>
+        <div>
+          <div class="title">Simon cyklar för Team Rynkeby</div>
+          <div class="sub">Till stöd för Barncancerfonden</div>
+        </div>
+      </div>
+      <div class="sub">Paris‑målet • Juli 2026</div>
+    </header>
+
+    <section class="hero">
+      <h1>Följ min resa 💛</h1>
+      <p>Jag tränar mot Paris med Team Rynkeby. Här ser du min cykelprogress, kan följa mig på Strava och stötta resan.</p>
+    </section>
+
+    <section class="grid">
+      <!-- Vänster: progressbilden -->
+      <div class="card progress-card">
+        <h2>Träningsprogress</h2>
+        <!-- ======== REDIGERA HÄR: Bild-URL från GitHub Pages ======== -->
+        <img src="https://irritat0r.github.io/rynkeby-status/strava_km.png" alt="Cykelprogress (uppdateras automatiskt)" />
+        <div class="note">Uppdateras automatiskt via Strava &amp; GitHub Actions.</div>
+      </div>
+
+      <!-- Höger: knappar -->
+      <aside class="card">
+        <h2>Snabblänkar</h2>
+        <div class="btns">
+          <!-- ======== REDIGERA HÄR: Ersätt med dina riktiga länkar ======== -->
+          <a class="btn" href="https://www.strava.com/athletes/123456" target="_blank" rel="noopener">Följ mig på Strava</a>
+          <!-- Swish-deeplink (inofficiell). Lägg även numret i text nedan som fallback -->
+          <a class="btn btn--invert" href="swish://payment?version=1&payee=1231231234&message=Team%20Rynkeby%20Donation" >Swisha en gåva</a>
+          <a class="btn" href="https://www.instagram.com/dittkonto" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn" href="mailto:du@example.com">Kontakta mig</a>
+        </div>
+        <div class="note">Funkar inte Swish‑knappen? Öppna Swish och skriv: <b>123 123 1234</b>.</div>
+      </aside>
+    </section>
+
+    <!-- Sponsorer -->
+    <section class="section card" style="margin-top:18px">
+      <h2>Sponsorer 💛</h2>
+      <div class="sponsors">
+        <!-- ======== REDIGERA HÄR: Byt till loggor eller namn ======== -->
+        <div class="sponsor">DITT NAMN HÄR<br/><small>Synas som sponsor?</small></div>
+        <div class="sponsor">DITT NAMN HÄR<br/><small>Synas som sponsor?</small></div>
+        <div class="sponsor">DITT NAMN HÄR<br/><small>Synas som sponsor?</small></div>
+      </div>
+    </section>
+
+    <!-- Topp 3 bidragsgivare -->
+    <section class="section card" style="margin-top:18px">
+      <h2>Topp 3 bidragsgivare 🏅</h2>
+      <ol class="toplist">
+        <!-- ======== REDIGERA HÄR ======== -->
+        <li>Företag A – 5 000 kr</li>
+        <li>Cykelbutiken – 3 000 kr</li>
+        <li>Familjen – 1 000 kr</li>
+      </ol>
+    </section>
+
+    <footer>
+      © <span id="y"></span> Simon • Team Rynkeby • Barncancerfonden
+    </footer>
+  </div>
+  <script>
+    // Sätt årtal i footern
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
