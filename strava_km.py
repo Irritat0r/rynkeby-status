@@ -214,8 +214,8 @@ def main():
     km = fetch_km(access, period_start, period_end)
 
     os.makedirs("docs", exist_ok=True)
-    out_png = os.path.join("docs", "strava_km_style3.png")
-    out_svg = os.path.join("docs", "strava_km_style3.svg")
+    out_png = os.path.join("docs", "strava_km.png")
+    out_svg = os.path.join("docs", "strava_km.svg")
     draw_style_3(km, goal_km, label, out_png, out_svg)
 
     # Liten txt för enkelhet/debug
