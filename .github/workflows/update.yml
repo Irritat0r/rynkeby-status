@@ -1,0 +1,61 @@
+name: Update Strava Image
+
+on:
+  schedule:
+    - cron: "0 2 * * *"   # 2 varje natt (UTC)
+  workflow_dispatch:
+    inputs:
+      test_mode:
+        description: "Sätt 'true' för att köra testperioden (2025-06-01 → idag)"
+        required: true
+        default: "false"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set period env
+        id: period
+        run: |
+          if [ "${{ github.event.inputs.test_mode }}" = "true" ]; then
+            echo "PERIOD_START=2025-06-01" >> $GITHUB_ENV
+            echo "PERIOD_LABEL=Sedan 2025-06-01 (test)" >> $GITHUB_ENV
+          else
+            echo "PERIOD_START=2025-10-01" >> $GITHUB_ENV
+            echo "PERIOD_LABEL=Sedan 2025-10-01" >> $GITHUB_ENV
+          fi
+          # Låt PERIOD_END vara "idag" (default i scriptet), men du kan låsa den:
+          # echo "PERIOD_END=2026-07-31" >> $GITHUB_ENV
+          echo "GOAL_KM=5000" >> $GITHUB_ENV
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate image
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+          PERIOD_START: ${{ env.PERIOD_START }}
+          PERIOD_END: ${{ env.PERIOD_END }}
+          GOAL_KM: ${{ env.GOAL_KM }}
+          PERIOD_LABEL: ${{ env.PERIOD_LABEL }}
+        run: |
+          python strava_km.py
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add docs/strava_km_style3.png docs/strava_km_style3.svg docs/latest.txt
+          git commit -m "Update Strava image"
+          git push
