@@ -1,5 +1,6 @@
 import os
 import requests
+import time
 from datetime import datetime, timezone
 from dateutil import parser as dtparser
 from PIL import Image, ImageDraw, ImageFont
@@ -59,6 +60,24 @@ def load_font(size, bold=True):
 # ---------------------------
 # Strava API
 # ---------------------------
+
+def should_count(activity: dict) -> bool:
+    """
+    Returnerar True om aktiviteten ska räknas som cykelpass.
+    - Räknar: Ride, GravelRide, VirtualRide
+    - Räknar inte: EBikeRide (m.fl.)
+    Stödjer både sport_type (nyare fält) och type (äldre fält).
+    """
+    # Nyare Strava: sport_type
+    st = (activity.get("sport_type") or "").strip()
+    if st:
+        return st in ("Ride", "GravelRide", "VirtualRide")
+
+    # Äldre fält: type
+    t = (activity.get("type") or "").strip()
+    return t in ("Ride", "GravelRide", "VirtualRide")
+
+
 def refresh_access_token():
     client_id = env("STRAVA_CLIENT_ID", required=True)
     client_secret = env("STRAVA_CLIENT_SECRET", required=True)
@@ -86,41 +105,49 @@ def fetch_km(access_token, start_iso, end_iso):
             f"Ogiltig period: PERIOD_START={start_iso} måste vara före PERIOD_END={end_iso}."
         )
 
-    km_total = 0.0
-    page = 1
+    url = "https://www.strava.com/api/v3/athlete/activities"
+    headers = {"Authorization": f"Bearer {access_token}"}
     per_page = 200
+    page = 1
+    total_km = 0.0
+
+    # Minimal retry/backoff
+    def _get(params, tries=5, base_sleep=1.5):
+        for i in range(tries):
+            resp = requests.get(url, headers=headers, params=params, timeout=30)
+            # Särskilda fel först
+            if resp.status_code == 401:
+                raise RuntimeError(
+                    "401 från Strava: access_token saknar troligen 'activity:read'/'activity:read_all' "
+                    "eller är ogiltig. Gör om OAuth och uppdatera STRAVA_REFRESH_TOKEN i Secrets."
+                )
+            if resp.status_code == 400:
+                raise RuntimeError("400 från Strava: kontrollera att 'after' < 'before' (startdatum före slutdatum).")
+            if resp.status_code in (429, 500, 502, 503, 504):
+                # backoff och försök igen
+                sleep_s = base_sleep * (2 ** i)
+                time.sleep(sleep_s)
+                continue
+            resp.raise_for_status()
+            return resp
+        # Om vi hamnar här: för många misslyckade försök
+        resp.raise_for_status()
 
     while True:
-        resp = requests.get(
-            "https://www.strava.com/api/v3/athlete/activities",
-            headers={"Authorization": f"Bearer {access_token}"},
-            params={"after": after, "before": before, "page": page, "per_page": per_page},
-            timeout=30,
-        )
-        if resp.status_code == 401:
-            raise RuntimeError(
-                "401 från Strava: access_token saknar troligen 'activity:read'/'activity:read_all' eller är ogiltig. "
-                "Gör om OAuth och uppdatera STRAVA_REFRESH_TOKEN i GitHub Secrets."
-            )
-        if resp.status_code == 400:
-            raise RuntimeError(
-                "400 från Strava: kontrollera att 'after' < 'before' (startdatum före slutdatum)."
-            )
-        resp.raise_for_status()
-        acts = resp.json()
-        if not acts:
+        params = {"after": after, "before": before, "page": page, "per_page": per_page}
+        resp = _get(params)
+        activities = resp.json()
+        if not activities:
             break
 
-        for a in acts:
-            t = a.get("type", "")
-            # Lägg till "VirtualRide" om du vill räkna Zwift mm.
-            if t in ("Ride", "GravelRide", "VirtualRide"):
-                meters = a.get("distance", 0) or 0
-                km_total += meters / 1000.0
+        for a in activities:
+            if should_count(a):
+                meters = a.get("distance") or 0
+                total_km += float(meters) / 1000.0
 
         page += 1
 
-    return km_total
+    return total_km
 
 # ---------------------------
 # Rendering (Stil 3)
