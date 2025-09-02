@@ -1,8 +1,8 @@
 name: Update Strava Image
 
 on:
-  schedule:
-    - cron: "0 2 * * *"   # körs klockan 2 varje natt(UTC)
+  #schedule:
+   # - cron: "0 2 * * *"   # körs klockan 2 varje natt(UTC)
   workflow_dispatch:
     inputs:
       test_mode:
