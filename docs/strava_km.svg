@@ -2,9 +2,9 @@
 <svg width="1200" height="700" viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg">
   <rect x="0" y="0" width="1200" height="700" fill="#FFFFFF"/>
   <rect x="60" y="60" rx="28" ry="28" width="1080" height="580" fill="#FEDD00"/>
-  <text x="600.0" y="240" font-size="140" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" fill="#000000" text-anchor="middle">187 km</text>
-  <rect x="140" y="298" rx="25.0" ry="25.0" width="920" height="50" fill="#FFFFFF"/>
-  <rect x="140" y="298" rx="25.0" ry="25.0" width="28" height="50" fill="#000000"/>
-  <text x="600.0" y="418" font-size="48" font-family="DejaVu Sans, Arial, sans-serif" fill="#000000" text-anchor="middle">187 / 6000 km cyklade</text>
-  <text x="600.0" y="472" font-size="36" font-family="DejaVu Sans, Arial, sans-serif" fill="#000000" text-anchor="middle">Sedan 2025-10-01</text>
+  <text x="600.0" y="240" font-size="140" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" fill="#000000" text-anchor="middle">212 km</text>
+  <rect x="140" y="296" rx="25.0" ry="25.0" width="920" height="50" fill="#FFFFFF"/>
+  <rect x="140" y="296" rx="25.0" ry="25.0" width="32" height="50" fill="#000000"/>
+  <text x="600.0" y="416" font-size="48" font-family="DejaVu Sans, Arial, sans-serif" fill="#000000" text-anchor="middle">212 / 6000 km cyklade</text>
+  <text x="600.0" y="470" font-size="36" font-family="DejaVu Sans, Arial, sans-serif" fill="#000000" text-anchor="middle">Sedan 2025-10-01</text>
 </svg>
